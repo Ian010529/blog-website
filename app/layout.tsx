@@ -1,9 +1,11 @@
+import './globals.css'
+
 import type { Metadata } from 'next'
-import { ThemeProvider } from '@/components/ui/theme-provider'
 import { Geist, Geist_Mono } from 'next/font/google'
 
-import { Navbar } from '@/components/web/navbar'
-import './globals.css'
+import { Toaster } from '@/components/ui/sonner'
+import { ThemeProvider } from '@/components/ui/theme-provider'
+import { ConvexClientProvider } from '@/components/web/ConvexClientProvider'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,14 +29,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <main className="max-w-7xl mx-auto w-full px-4 md:px-6 lg:px-8">
-            <Navbar />
-            {children}
+            <ConvexClientProvider>{children}</ConvexClientProvider>
           </main>
-        </body>
-      </ThemeProvider>
+          <Toaster closeButton />
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
